@@ -1,0 +1,114 @@
+# docker-compose -f docker-compose.yaml up/down
+# docker-compose up
+# docker-compose exec frs_django bash
+# docker-compose exec frs_pgsql bash
+# docker-compose exec frs_redis sh
+# docker-compose exec frs_pgadmin4 sh
+# docker-compose -f docker-compose.yaml up --build
+# or,
+# docker-compose up --build
+# docker-compose build
+# Manually do: migrations & createsuperuser.
+# Redis:- Checking valid aof & rdb files: `redis-check-aof <fullpath/filenname.aof>` & `redis-check-rdb <fullpath/filenname.rdb>`.
+# python3 manage.py makemigrations && python3 manage.py migrate
+# ------------------------------------------------------------------------------------------------------
+
+version: '3.7'
+
+networks:
+  dockernetwork:
+    driver: bridge
+
+services:
+  frs_django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8888:8000
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    container_name: frs_django
+    depends_on:
+      - frs_pgsql
+      - frs_redis
+    networks:
+      - dockernetwork
+
+  frs_pgsql:
+    image: postgres:9.6-alpine
+    container_name: frs_pgsql
+    environment:
+      POSTGRES_DB: frsdb
+      POSTGRES_PASSWORD: admin@123
+      POSTGRES_USER: root
+      TZ: 'Asia/Kolkata'
+    networks:
+      - dockernetwork
+    restart: unless-stopped
+    ports:
+      - "8889:5432"
+    volumes:
+      - .sqlscript/sqlscript.sh:/docker-entrypoint-initdb.d/0_init.sh    # Used to create the database.
+      # - .sqlscript:/docker-entrypoint-initdb.d    # Uncomment this and go inside pgsql container & navigate to `/docker-entrypoint-initdb.d` & run inside container: `psql -U <username> <dbname> < dbexport.pgsql` to import data in the database.
+      - .dbdata:/var/lib/postgresql/data
+
+  frs_redis:
+    container_name: frs_redis
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      # - "no"
+      - --databases
+      - "2"
+      - --maxmemory
+      - "100mb"
+      - --maxclients
+      - "500"
+      - --maxmemory-policy
+      - "allkeys-lru"
+      - --save
+      - "5"
+      - "1"
+      # - ""
+      - --tcp-backlog
+      - "256"
+      - --requirepass
+      - "admin@123"
+    image: redis:5.0-alpine
+    # image: redis:6.2.6-buster
+    networks:
+      - dockernetwork
+    restart: unless-stopped
+    ports:
+      - "8887:6379"
+    working_dir: /data
+    volumes:
+      - .redisdata:/data
+
+  frs_pgadmin4:
+    container_name: frs_pgadmin4
+    image: dpage/pgadmin4:5.1
+    restart: always
+    networks:
+      - dockernetwork
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin@123
+    ports:
+      - "8886:80"    # Open browser and goto localhost:5050 & use the above credentials to use the pgsql db.
+    # working_dir: /pgadmin4
+    volumes:
+      - .pgadmindata:/data
+      # - .pgadmindata:/pgadmin4    ### This volume throws an error! ###
+    # command: cp -rf /pgadmin4/* /data/
+    # command: /bin/cp -rf /data/* /pgadmin4/
+    # command: \cp -rf /pgadmin4/data/* /pgadmin4/
+    # command: yes | cp -rf /pgadmin4/data/* /pgadmin4/
+
+volumes:
+  .dbdata:
+  .redisdata:
+  .pgadmindata:

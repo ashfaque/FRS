@@ -159,8 +159,8 @@ if not os.path.exists(MEDIA_ROOT):
     os.makedirs(MEDIA_ROOT)
 if not os.path.exists(LOG_ROOT):
     os.makedirs(LOG_ROOT)
-STATIC_URL = '/sft_docs/static/'
-MEDIA_URL = '/sft_docs/media/'
+STATIC_URL = '/FRS/static/'
+MEDIA_URL = '/FRS/media/'
 # SERVER_URL = 'http://0.0.0.0:00000/'
 SERVER_URL = 'http://127.0.0.1:8888/'
 FRONTEND_URL = 'http://127.0.0.1/frs/#/'
@@ -207,7 +207,7 @@ LOGGING = {
             'filename': os.path.join(DJANGO_ROOT, 'logs/django/django_debug.log'),
             'maxBytes': 1024 * 1024 * 10, # Max 10 MB
             #'when': 'D', # this specifies the interval
-            #'interval': 1, # defaults to 1, only necessary for other values 
+            #'interval': 1, # defaults to 1, only necessary for other values
             'backupCount': 1, # how many backup file to keep, 5 days
             'formatter': 'verbose',
         },
@@ -217,7 +217,7 @@ LOGGING = {
         #     'filename': os.path.join(DJANGO_ROOT, 'logs/django/django_critical.log'),
         #     'maxBytes': 1024 * 1024 * 10, # Max 10 MB
         #     #'when': 'D', # this specifies the interval
-        #     #'interval': 1, # defaults to 1, only necessary for other values 
+        #     #'interval': 1, # defaults to 1, only necessary for other values
         #     'backupCount': 1, # how many backup file to keep, 5 days
         #     'formatter': 'verbose',
         # },
@@ -227,7 +227,7 @@ LOGGING = {
             'filename': os.path.join(DJANGO_ROOT, 'logs/django/django_error.log'),
             'maxBytes': 1024 * 1024 * 10, # Max 10 MB
             #'when': 'D', # this specifies the interval
-            #'interval': 1, # defaults to 1, only necessary for other values 
+            #'interval': 1, # defaults to 1, only necessary for other values
             'backupCount': 1, # how many backup file to keep, 5 days
             'formatter': 'verbose',
         },
@@ -237,7 +237,7 @@ LOGGING = {
             'filename': os.path.join(DJANGO_ROOT, 'logs/django/django_info.log'),
             'maxBytes': 1024 * 1024 * 10, # Max 10 MB
             #'when': 'D', # this specifies the interval
-            #'interval': 1, # defaults to 1, only necessary for other values 
+            #'interval': 1, # defaults to 1, only necessary for other values
             'backupCount': 1, # how many backup file to keep, 5 days
             'formatter': 'verbose',
         },
