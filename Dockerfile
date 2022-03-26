@@ -5,6 +5,9 @@ FROM python:3.6.8-slim-stretch
 
 WORKDIR /app
 
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED 1
+
 RUN python -m pip install --upgrade pip
 
 COPY requirements.txt requirements.txt
@@ -24,4 +27,17 @@ COPY . .
 # trace: finer-grained informational events than the DEBUG. [OR] Fine-grained debug message, typically capturing the flow through the application.
 
 # --log-level <str>: Options: 'critical', 'error', 'warning', 'info', 'debug', 'trace'. Default: 'info'.
-CMD [ "uvicorn", "FRS.asgi:application", "--reload", "--host", "0.0.0.0", "--port", "8000", "--use-colors", "--log-level", "info" ]
+# CMD [ "uvicorn", "FRS.asgi:application", "--reload", "--host", "0.0.0.0", "--port", "8000", "--use-colors", "--log-level", "info" ]
+
+RUN apt-get  -y update
+RUN apt-get install  -y unixodbc-dev
+#https://willi.am/blog/2016/08/11/docker-for-windows-dealing-with-windows-line-endings/
+RUN apt-get install -y dos2unix
+
+# RUN python3 -m venv myvenv
+# RUN source myvenv/bin/activate
+
+RUN dos2unix /app/docker_entrypoint.sh
+RUN chmod 777 /app/docker_entrypoint.sh
+
+ENTRYPOINT ["/bin/sh", "/app/docker_entrypoint.sh" ]

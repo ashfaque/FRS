@@ -29,6 +29,7 @@ services:
     volumes:
       - .:/app
     restart: unless-stopped
+    env_file: .env
     container_name: frs_django
     depends_on:
       - frs_pgsql
@@ -39,14 +40,15 @@ services:
   frs_pgsql:
     image: postgres:9.6-alpine
     container_name: frs_pgsql
-    environment:
-      POSTGRES_DB: frsdb
-      POSTGRES_PASSWORD: admin@123
-      POSTGRES_USER: root
-      TZ: 'Asia/Kolkata'
+    # environment:
+    #   POSTGRES_DB: frsdb
+    #   POSTGRES_PASSWORD: admin@123
+    #   POSTGRES_USER: root
+    #   TZ: 'Asia/Kolkata'
     networks:
       - dockernetwork
     restart: unless-stopped
+    env_file: .env
     ports:
       - "8889:5432"
     volumes:
@@ -82,6 +84,7 @@ services:
     networks:
       - dockernetwork
     restart: unless-stopped
+    env_file: .env
     ports:
       - "8887:6379"
     working_dir: /data
@@ -92,11 +95,12 @@ services:
     container_name: frs_pgadmin4
     image: dpage/pgadmin4:5.1
     restart: always
+    env_file: .env
     networks:
       - dockernetwork
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin@123
+    # environment:
+      # PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      # PGADMIN_DEFAULT_PASSWORD: admin@123
     ports:
       - "8886:80"    # Open browser and goto localhost:5050 & use the above credentials to use the pgsql db.
     # working_dir: /pgadmin4
