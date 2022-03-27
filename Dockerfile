@@ -8,6 +8,10 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED 1
 
+# ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install python3-dev default-libmysqlclient-dev build-essential -y
+
 RUN python -m pip install --upgrade pip
 
 COPY requirements.txt requirements.txt
