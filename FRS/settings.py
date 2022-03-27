@@ -93,7 +93,11 @@ DATABASES = {
         # 'USER': os.environ.get('POSTGRES_USER', 'postgres'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '123456'),
         'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
-        'PORT': os.environ.get('DB_PORT', '5432')
+        'PORT': os.environ.get('DB_PORT', '3306'),
+        # 'PORT': os.environ.get('DB_PORT', '5432')
+        'OPTIONS' if not os.path.exists(os.path.join(DJANGO_ROOT, '.env')) else '' : {
+            'sql_mode': 'traditional',
+        } if not os.path.exists(os.path.join(DJANGO_ROOT, '.env')) else '',
     }
 }
 
