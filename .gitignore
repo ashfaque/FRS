@@ -143,6 +143,7 @@ storage/
 migrations/
 # settings.py
 *.env
+.env1
 .dbdata/
 .redisdata/
 .pgadmindata/
