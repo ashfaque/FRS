@@ -87,27 +87,22 @@ WSGI_APPLICATION = 'FRS.wsgi.application'
 # PostgreSQL :-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.mysql'),
         'NAME': os.environ.get('POSTGRES_DB', 'frsdb'),
         'USER': os.environ.get('POSTGRES_USER', 'root'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'admin@123'),
-        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),    # ? If .env file present then docker host else local host
-        # 'HOST': '127.0.0.1',      # For Local
-        # 'HOST': 'frs_pgsql',      # For Docker
+        # 'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '123456'),
+        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
         'PORT': os.environ.get('DB_PORT', '5432')
     }
 }
 
 REDIS = {
     'REDIS_HOST': os.environ.get('REDIS_HOST', '127.0.0.1'),
-    # 'REDIS_HOST': '127.0.0.1',     # For Server/Local
-    # 'REDIS_HOST': 'frs_redis',       # For Docker
     'REDIS_PORT': os.environ.get('REDIS_PORT', 6379),
     'REDIS_DB_INDEX': 0,
     'REDIS_AUTH': os.environ.get('REDIS_AUTH', False),
     'REDIS_PASSWORD': os.environ.get('REDIS_PASSWORD', ''),
-    # 'REDIS_PASSWORD': ''           # For Server/Local
-    # 'REDIS_PASSWORD': 'admin@123'    # For Docker
 }
 
 
@@ -300,7 +295,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'facerecognitionsystem@outlook.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'Huluwu777')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'Hu*uw***7')
 MAX_ATTACHMENT_SIZE_KB = 15000
 # ==================== Email Config ==================== #
 

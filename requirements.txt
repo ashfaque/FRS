@@ -10,3 +10,4 @@ h11==0.13.0
 importlib-metadata==4.8.3
 uvicorn==0.16.0
 zipp==3.6.0
+mysqlclient==1.4.6

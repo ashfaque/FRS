@@ -38,7 +38,8 @@ services:
       - dockernetwork
 
   frs_pgsql:
-    image: postgres:9.6-alpine
+    # image: postgres:9.6-alpine
+    image: postgres:14.2-alpine3.15
     container_name: frs_pgsql
     # environment:
     #   POSTGRES_DB: frsdb
@@ -93,7 +94,8 @@ services:
 
   frs_pgadmin4:
     container_name: frs_pgadmin4
-    image: dpage/pgadmin4:5.1
+    # image: dpage/pgadmin4:5.1
+    image: dpage/pgadmin4:6.7
     restart: always
     env_file: .env
     networks:
