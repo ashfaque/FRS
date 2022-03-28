@@ -13,7 +13,7 @@
 # python3 manage.py makemigrations && python3 manage.py migrate
 # ------------------------------------------------------------------------------------------------------
 
-version: '3.7'
+version: '3.8'
 
 networks:
   dockernetwork:
@@ -54,8 +54,8 @@ services:
       - "8889:5432"
     volumes:
       - .sqlscript/sqlscript.sh:/docker-entrypoint-initdb.d/0_init.sh    # Used to create the database.
+      - ${PWD}/.dbdata:/var/lib/postgresql/data
       # - .sqlscript:/docker-entrypoint-initdb.d    # Uncomment this and go inside pgsql container & navigate to `/docker-entrypoint-initdb.d` & run inside container: `psql -U <username> <dbname> < dbexport.pgsql` to import data in the database.
-      - .dbdata:/var/lib/postgresql/data
 
   frs_redis:
     container_name: frs_redis

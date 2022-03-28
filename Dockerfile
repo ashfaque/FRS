@@ -8,6 +8,10 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED 1
 
+# ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install python3-dev default-libmysqlclient-dev build-essential -y
+
 RUN python -m pip install --upgrade pip
 
 COPY requirements.txt requirements.txt
@@ -34,7 +38,7 @@ RUN apt-get install  -y unixodbc-dev
 #https://willi.am/blog/2016/08/11/docker-for-windows-dealing-with-windows-line-endings/
 RUN apt-get install -y dos2unix
 
-# RUN echo "#################testpoint###################"
+RUN echo "#################testpoint###################"
 # RUN pwd
 # RUN ls -l
 # RUN which python3
@@ -44,10 +48,13 @@ RUN apt-get install -y dos2unix
 
 # COPY ./docker/django/entrypoint.sh /usr/local/bin/
 
-RUN dos2unix /app/docker_entrypoint.sh
-RUN chmod 777 /app/docker_entrypoint.sh
+COPY ./docker_entrypoint.sh /
 
-# RUN file="$(ls -1 /app)" && echo $file
+RUN chmod 777 /docker_entrypoint.sh
+RUN dos2unix /docker_entrypoint.sh
+
+RUN file="$(ls -1 /app)" && echo $file
+RUN file="$(ls -1 /)" && echo $file
 
 ####  https://stackoverflow.com/questions/38905135/why-wont-my-docker-entrypoint-sh-execute
-ENTRYPOINT ["/bin/sh", "/app/docker_entrypoint.sh" ]
+ENTRYPOINT ["/bin/sh", "/docker_entrypoint.sh" ]
