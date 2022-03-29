@@ -1,8 +1,7 @@
 # docker-compose -f docker-compose.yaml up/down
 # docker-compose up
 # docker compose exec frs_django python3 manage.py makemigrations
-# docker compose exec frs_django python3 manage.py migrate
-# or,
+# docker compose exec frs_django python3 manage.py migrate --fake <app_name> <migration_file_name>
 # docker compose exec frs_django bash -c "python3 manage.py makemigrations && python3 manage.py migrate"
 # docker-compose exec frs_django bash
 # docker-compose exec frs_pgsql bash
