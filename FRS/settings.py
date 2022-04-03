@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'FRS.wsgi.application'
 #     }
 # }
 
-# PostgreSQL :-
+# PostgreSQL if using Docker else MySQL :-
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.mysql'),
@@ -186,6 +186,14 @@ FILE_STORAGE_CONFIG = {
 # =========== DEBUG LOGGING ============== #
 if not os.path.exists(LOG_ROOT + "/django"):
     os.makedirs(LOG_ROOT + "/django")
+if not os.path.exists(LOG_ROOT + "/django/debug"):
+    os.makedirs(LOG_ROOT + "/django/debug")
+if not os.path.exists(LOG_ROOT + "/django/critical"):
+    os.makedirs(LOG_ROOT + "/django/critical")
+if not os.path.exists(LOG_ROOT + "/django/error"):
+    os.makedirs(LOG_ROOT + "/django/error")
+if not os.path.exists(LOG_ROOT + "/django/info"):
+    os.makedirs(LOG_ROOT + "/django/info")
 
 LOGGING = {
     'version': 1,
@@ -208,41 +216,41 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(DJANGO_ROOT, 'logs/django/django_debug.log'),
-            'maxBytes': 1024 * 1024 * 10, # Max 10 MB
+            'filename': os.path.join(DJANGO_ROOT, 'logs/django/debug/django_debug.log'),
+            'maxBytes': 1024 * 1024 * 2, # Max 2 MB
             #'when': 'D', # this specifies the interval
             #'interval': 1, # defaults to 1, only necessary for other values
-            'backupCount': 1, # how many backup file to keep, 5 days
+            'backupCount': 1, # how many backup file to keep
             'formatter': 'verbose',
         },
         # 'filecritical': {
         #     'level': 'CRITICAL',
         #     'class': 'logging.handlers.RotatingFileHandler',
-        #     'filename': os.path.join(DJANGO_ROOT, 'logs/django/django_critical.log'),
-        #     'maxBytes': 1024 * 1024 * 10, # Max 10 MB
+        #     'filename': os.path.join(DJANGO_ROOT, 'logs/django/critical/django_critical.log'),
+        #     'maxBytes': 1024 * 1024 * 2, # Max 2 MB
         #     #'when': 'D', # this specifies the interval
         #     #'interval': 1, # defaults to 1, only necessary for other values
-        #     'backupCount': 1, # how many backup file to keep, 5 days
+        #     'backupCount': 1, # how many backup file to keep
         #     'formatter': 'verbose',
         # },
         'fileerror': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(DJANGO_ROOT, 'logs/django/django_error.log'),
-            'maxBytes': 1024 * 1024 * 10, # Max 10 MB
+            'filename': os.path.join(DJANGO_ROOT, 'logs/django/error/django_error.log'),
+            'maxBytes': 1024 * 1024 * 2, # Max 2 MB
             #'when': 'D', # this specifies the interval
             #'interval': 1, # defaults to 1, only necessary for other values
-            'backupCount': 1, # how many backup file to keep, 5 days
+            'backupCount': 1, # how many backup file to keep
             'formatter': 'verbose',
         },
         'fileinfo': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(DJANGO_ROOT, 'logs/django/django_info.log'),
-            'maxBytes': 1024 * 1024 * 10, # Max 10 MB
+            'filename': os.path.join(DJANGO_ROOT, 'logs/django/info/django_info.log'),
+            'maxBytes': 1024 * 1024 * 2, # Max 2 MB
             #'when': 'D', # this specifies the interval
             #'interval': 1, # defaults to 1, only necessary for other values
-            'backupCount': 1, # how many backup file to keep, 5 days
+            'backupCount': 1, # how many backup file to keep
             'formatter': 'verbose',
         },
     },
