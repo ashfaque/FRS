@@ -2,3 +2,6 @@
 Face Recognition System for Students' Attendance using Django &amp; ML
 
 ![Banner](https://www.invixium.com/wp-content/uploads/2021/04/ixm-titan-banner.jpg)
+
+### Run with
+`uvicorn FRS.asgi:application --reload --host 0.0.0.0 --port 8888  --use-colors --log-level info`
