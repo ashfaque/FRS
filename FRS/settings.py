@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-wp98oa@e_@*@6f3uhwkbn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-AUTH_USER_MODEL = 'user.UserDetail'
+AUTH_USER_MODEL = 'users.UserDetail'
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'frsmaster',
     'users',
+    'master',
 ]
 
 MIDDLEWARE = [

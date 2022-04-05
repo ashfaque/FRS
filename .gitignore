@@ -147,3 +147,4 @@ migrations/
 .dbdata/
 .redisdata/
 .pgadmindata/
+UserDetail
