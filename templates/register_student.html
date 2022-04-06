@@ -1,0 +1,75 @@
+{% comment %} https://www.pluralsight.com/guides/introduction-to-django-templates {% endcomment %}
+{% comment %} https://www.youtube.com/watch?v=xV4CGM4n9cg {% endcomment %}
+{% comment %} bootstrap 5 form to send webcam capture image in form data {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .d-none {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <button type="button" id="btnActivateCamera">Activate Camera</button>
+    <button type="button" id="btnDeactivateCamera" class="d-none">Deactivate Camera</button>
+    <br />
+    <video id="capturevideo" width="230" height="230" class="d-none"></video>
+    <br />
+    <button type="button" id="btnCapture" class="d-none">Capture</button>
+    <hr />
+    <canvas id="capturecanvas" width="230" height="230" class="d-none"></canvas>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      var videoCapture;
+      $(document).ready(function () {
+        videoCapture = document.getElementById("capturevideo");
+      });
+      $(document).on("click", "#btnActivateCamera", function () {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          // access video stream from webcam
+          navigator.mediaDevices
+            .getUserMedia({ video: true })
+            .then(function (stream) {
+              // on success, stream it in video tag
+              window.localStream = stream;
+              videoCapture.srcObject = stream;
+              videoCapture.play();
+              activateCamera();
+            })
+            .catch((e) => {
+              // on failure/error, alert message.
+              alert("Please Allow: Use Your Camera!");
+            });
+        }
+      });
+      $(document).on("click", "#btnDeactivateCamera", function () {
+        // stop video streaming if any
+        localStream.getTracks().forEach(function (track) {
+          if (track.readyState == "live" && track.kind === "video") {
+            track.stop();
+            deactivateCamera();
+          }
+        });
+      });
+      $(document).on("click", "#btnCapture", function () {
+        document.getElementById("capturecanvas").getContext("2d").drawImage(videoCapture, 0, 0, 230, 230);
+      });
+      function activateCamera() {
+        $("#btnActivateCamera").addClass("d-none");
+        $("#btnDeactivateCamera").removeClass("d-none");
+        $("#capturevideo").removeClass("d-none");
+        $("#btnCapture").removeClass("d-none");
+        $("#capturecanvas").removeClass("d-none");
+      }
+      function deactivateCamera() {
+        $("#btnDeactivateCamera").addClass("d-none");
+        $("#btnActivateCamera").removeClass("d-none");
+        $("#capturevideo").addClass("d-none");
+        $("#btnCapture").addClass("d-none");
+        $("#capturecanvas").addClass("d-none");
+      }
+    </script>
+  </body>
+</html>
