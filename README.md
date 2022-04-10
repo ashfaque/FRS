@@ -5,3 +5,6 @@ Face Recognition System for Students' Attendance using Django &amp; ML
 
 ### Run with
 `uvicorn FRS.asgi:application --reload --host 0.0.0.0 --port 8888  --use-colors --log-level info`
+
+### Run these commands first
+    python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic
