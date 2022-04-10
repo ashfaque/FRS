@@ -133,7 +133,7 @@ dmypy.json
 
 .vscode/
 *.pyc
-static/
+# static/
 staticfiles/
 media/
 logs/
