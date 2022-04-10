@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    # 'knox',
     'frsmaster',
     'users',
     'master',
@@ -158,6 +160,7 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(DJANGO_ROOT, "static")
 STATIC_FILES_ROOT = os.path.join(DJANGO_ROOT, "staticfiles")
 MEDIA_ROOT = os.path.join(DJANGO_ROOT, "media")
+FRS_MEDIA_ROOT = os.path.join(DJANGO_ROOT, "media/frs_images/")
 LOG_ROOT = os.path.join(DJANGO_ROOT, "logs")
 # create the folders if not found
 if not os.path.exists(STATIC_ROOT):
@@ -166,6 +169,8 @@ if not os.path.exists(STATIC_FILES_ROOT):
     os.makedirs(STATIC_FILES_ROOT)
 if not os.path.exists(MEDIA_ROOT):
     os.makedirs(MEDIA_ROOT)
+if not os.path.exists(FRS_MEDIA_ROOT):
+    os.makedirs(FRS_MEDIA_ROOT)
 if not os.path.exists(LOG_ROOT):
     os.makedirs(LOG_ROOT)
 STATIC_URL = '/FRS/static/'
@@ -283,11 +288,11 @@ LOGGING = {
 # ============================ Oauth implementation with Knox ===================#
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'knox.auth.TokenAuthentication',
+        # 'knox.auth.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
     ),
     # 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
@@ -295,14 +300,14 @@ REST_FRAMEWORK = {
 # ============================ Oauth implementation with Knox ==================#
 
 # ============ KNOX Config ============================= #
-REST_KNOX = {
-    'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
-    'AUTH_TOKEN_CHARACTER_LENGTH': 64,
-    'TOKEN_TTL': None,
-    'USER_SERIALIZER': 'knox.serializers.UserSerializer',
-    'TOKEN_LIMIT_PER_USER': None,
-    'AUTO_REFRESH': False,
-}
+# REST_KNOX = {
+#     'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
+#     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
+#     'TOKEN_TTL': None,
+#     'USER_SERIALIZER': 'knox.serializers.UserSerializer',
+#     'TOKEN_LIMIT_PER_USER': None,
+#     'AUTO_REFRESH': False,
+# }
 # ============ KNOX Config ============================= #
 
 # ==================== Email Config ==================== #
