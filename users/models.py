@@ -7,6 +7,24 @@ from django.utils import timezone
 
 # Create your models here.
 
+# Timestamp is always unique. Though the below code is not timestamp.
+def return_timestamped_roll():
+        last_roll_no = UserDetail.objects.all().order_by('id').last()
+        # print('type', type(last_roll_no), last_roll_no)
+        # import pdb; pdb.set_trace()
+        if not last_roll_no:
+            return 'RN0001'
+        else:
+            timestamped_id = last_roll_no.roll_no
+            timestamped_id = int(timestamped_id.split('RN')[-1])
+            width = 4
+            new_unique_int = timestamped_id + 1
+            formatted = (width - len(str(new_unique_int))) * "0" + str(new_unique_int)
+            new_unique_id = 'RN' + str(formatted)
+            # print('new_unique_id-------->', new_unique_id)
+            return new_unique_id
+
+
 class UserDetail(AbstractUser):
     GENDER_CHOICE = (
         ('Male', 'Male'),
@@ -21,7 +39,7 @@ class UserDetail(AbstractUser):
     user_type = models.CharField(choices=USER_TYPE_CHOICE, max_length=20, default='student')
     middle_name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(max_length=70, unique=True)
-    roll_no = models.CharField(max_length=30, blank=True, null=True)
+    roll_no = models.CharField(default=return_timestamped_roll, max_length=255, blank=True, null=True)
     gender = models.CharField(choices=GENDER_CHOICE, max_length=10, blank=True, null=True)
     phone_no = models.CharField(max_length=10, blank=True, null=True)
     password_to_know = models.CharField(max_length=200, blank=True, null=True)
