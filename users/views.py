@@ -11,13 +11,16 @@ def UserLoginView(request):
         email_var = request.POST['email']
         password_var = request.POST['password']
         # print(f"email---------->{email_var}\npassword------------>{password_var}")
-        validator = UserDetail.objects.filter(email = email_var, password = password_var).last()
+        # validator = UserDetail.objects.filter(email = email_var, password = password_var).last()
         # validator = auth.authenticate(email__iexact = email_var, password__iexact = password_var)
-        if validator is None:
-            return redirect('/users/login/error/')
-        else:
-            # https://learndjango.com/tutorials/django-login-and-logout-tutorial
+        user = UserDetail.objects.get(email__iexact=email_var)
+        # if validator is not None:
+        if user and user.check_password(password_var):
             return redirect('/users/register/')
+        else:
+            return redirect('/users/login/error/')
+            # https://learndjango.com/tutorials/django-login-and-logout-tutorial
+
 
     else:
         return render(request, 'admin_login.html')

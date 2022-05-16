@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', RedirectView.as_view(url='/users/login/'), name = 'redirect_to_login'),
     path('users/', include("users.urls")),
     path('frsmaster/', include("frsmaster.urls")),
     path('master/', include("master.urls")),
