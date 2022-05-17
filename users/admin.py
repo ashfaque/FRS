@@ -22,11 +22,10 @@ class CustomUserAdmin(UserAdmin):
 			},
 		),
         (
-            'Offcial Details',
+            'Official Details',
             {
                  'fields':(
                      'user_type',
-                     'email',
                      'roll_no',
                      'class_teacher',
                      'session',
