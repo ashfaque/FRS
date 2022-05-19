@@ -38,7 +38,7 @@ class UserDetail(AbstractUser):
     )
     user_type = models.CharField(choices=USER_TYPE_CHOICE, max_length=20, default='student')
     middle_name = models.CharField(max_length=100, blank=True, null=True)
-    email = models.EmailField(max_length=70, unique=True)
+    email = models.EmailField(max_length=70,) # unique=True
     roll_no = models.CharField(default=return_timestamped_roll, max_length=255, blank=True, null=True)
     gender = models.CharField(choices=GENDER_CHOICE, max_length=10, blank=True, null=True)
     phone_no = models.CharField(max_length=10, blank=True, null=True)
@@ -71,3 +71,15 @@ class UserDetail(AbstractUser):
 
     class Meta:
         db_table = 'user_user_detail'
+
+    def save(self, *args, **kwargs):
+        super(UserDetail, self).save(*args, **kwargs)
+        try:
+            from FRS.base_functions import save_face_data_while_creating_user
+            pk = self.pk
+            action = 'create'
+            if pk:
+                # action = 'update'
+                save_face_data_while_creating_user(pk, self, action=action)
+        except:
+            pass
