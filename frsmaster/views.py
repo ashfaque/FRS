@@ -50,7 +50,9 @@ def FMApplyFRSView(request):
         
         face_encoding_dir_path = os.path.join(settings.MEDIA_ROOT, "face_encoding_data")
         files = os.listdir(face_encoding_dir_path)
-        
+
+        names = []
+
         for file in files:
             data = pickle.loads(open(os.path.join(face_encoding_dir_path, file), "rb").read())
             #Find path to the image you want to detect face and pass it here
@@ -66,7 +68,6 @@ def FMApplyFRSView(request):
         
             # the facial embeddings for face in input
             encodings = face_recognition.face_encodings(rgb)
-            names = []
 
             # loop over the facial embeddings incase
             # we have multiple embeddings for multiple faces
@@ -98,11 +99,11 @@ def FMApplyFRSView(request):
                     # loop over the recognized faces
                 if len(names) != 0: break
 
-
         return Response({
-            "success":[
-                names,
-            ]
+            # "success":[
+                # names,
+            # ]
+            "roll_no": names
             }, status=status.HTTP_202_ACCEPTED)
 
 
