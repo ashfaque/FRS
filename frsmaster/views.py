@@ -7,6 +7,14 @@ import os
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from django.conf import settings
+from rest_framework.exceptions import APIException
+
+import face_recognition
+import imutils
+import pickle
+import time
+import cv2
+import os
 
 
 # ? Api to take forms data along with 5 images and apply frs on it and save it in db using student id as fkey and 5 images data in mapping table.
@@ -20,46 +28,80 @@ from django.conf import settings
 # @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
 def FMApplyFRSView(request):
     if request.method == 'POST':
-        roll_no = request.POST['roll_no']
-        image1 = request.FILES.get('image1', None)
-        image2 = request.FILES.get('image2', None)
-        image3 = request.FILES.get('image3', None)
-        image4 = request.FILES.get('image4', None)
-        image5 = request.FILES.get('image5', None)
+        image = request.FILES.get('image', None)
+
+        img_extension = os.path.splitext(image.name)[-1]
+
+# ! SAVE IMG taken from camera
 
 
-        img1_extension = os.path.splitext(image1.name)[-1]
-        img2_extension = os.path.splitext(image2.name)[-1]
-        img3_extension = os.path.splitext(image3.name)[-1]
-        img4_extension = os.path.splitext(image4.name)[-1]
-        img5_extension = os.path.splitext(image5.name)[-1]
+        if os.path.exists(settings.FRS_MEDIA_ROOT + "captured" + img_extension):
+            # print(settings.FRS_MEDIA_ROOT + "captured" + img_extension)
+            os.remove(settings.FRS_MEDIA_ROOT + "captured" + img_extension)
 
+        img_path = default_storage.save(settings.FRS_MEDIA_ROOT + "captured" + img_extension, image)
+        captured_image_full_path = os.path.join(settings.FRS_MEDIA_ROOT, f"captured{img_extension}")
 
-        for index in range(5):
-            if os.path.exists(settings.FRS_MEDIA_ROOT + str(roll_no) + f"_{index+1}" + img1_extension):
-                print(settings.FRS_MEDIA_ROOT + str(roll_no) + f"_{index+1}" + img1_extension)
-                os.remove(settings.FRS_MEDIA_ROOT + str(roll_no) + f"_{index+1}" + img1_extension)
+        #find path of xml file containing haarcascade file
+        cascPathface = os.path.dirname(cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"
+        # load the harcaascade in the cascade classifier
+        faceCascade = cv2.CascadeClassifier(cascPathface)
+        # load the known faces and embeddings saved in last file
+        
+        face_encoding_dir_path = os.path.join(settings.MEDIA_ROOT, "face_encoding_data")
+        files = os.listdir(face_encoding_dir_path)
+        
+        for file in files:
+            data = pickle.loads(open(os.path.join(face_encoding_dir_path, file), "rb").read())
+            #Find path to the image you want to detect face and pass it here
+            image = cv2.imread(captured_image_full_path)
+            rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            #convert image to Greyscale for haarcascade
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            faces = faceCascade.detectMultiScale(gray,
+                                                scaleFactor=1.1,
+                                                minNeighbors=5,
+                                                minSize=(60, 60),
+                                                flags=cv2.CASCADE_SCALE_IMAGE)
+        
+            # the facial embeddings for face in input
+            encodings = face_recognition.face_encodings(rgb)
+            names = []
 
+            # loop over the facial embeddings incase
+            # we have multiple embeddings for multiple faces
+            for encoding in encodings:
+                #Compare encodings with encodings in data["encodings"]
+                #Matches contain array with boolean values and True for the embeddings it matches closely
+                #and False for rest
+                matches = face_recognition.compare_faces(data["encodings"], encoding)
+                #set name =inknown if no encoding matches
+                name = "Unknown"
+                # check to see if we have found a match
+                if True in matches:
+                    #Find positions at which we get True and store them
+                    matchedIdxs = [i for (i, b) in enumerate(matches) if b]
+                    counts = {}
+                    # loop over the matched indexes and maintain a count for
+                    # each recognized face face
+                    for i in matchedIdxs:
+                        #Check the names at respective indexes we stored in matchedIdxs
+                        name = data["names"][i]
+                        #increase count for the name we got
+                        counts[name] = counts.get(name, 0) + 1
+                        #set name which has highest count
+                        name = max(counts, key=counts.get)
+            
+                    # update the list of names
+                    names.append(name)
+                    print("roll no---------------->", names)
+                    # loop over the recognized faces
+                if len(names) != 0: break
 
-        img1_path = default_storage.save(settings.FRS_MEDIA_ROOT + str(roll_no) + "_1" + img1_extension, image1)
-        img2_path = default_storage.save(settings.FRS_MEDIA_ROOT + str(roll_no) + "_2" + img2_extension, image2)
-        img3_path = default_storage.save(settings.FRS_MEDIA_ROOT + str(roll_no) + "_3" + img3_extension, image3)
-        img4_path = default_storage.save(settings.FRS_MEDIA_ROOT + str(roll_no) + "_4" + img4_extension, image4)
-        img5_path = default_storage.save(settings.FRS_MEDIA_ROOT + str(roll_no) + "_5" + img5_extension, image5)
-
-        detected_faces1 = detect_faces(img1_path)
-        detected_faces2 = detect_faces(img2_path)
-        detected_faces3 = detect_faces(img3_path)
-        detected_faces4 = detect_faces(img4_path)
-        detected_faces5 = detect_faces(img5_path)
 
         return Response({
             "success":[
-                detected_faces1,
-                detected_faces2,
-                detected_faces3,
-                detected_faces4,
-                detected_faces5,
+                names,
             ]
             }, status=status.HTTP_202_ACCEPTED)
 
@@ -67,27 +109,4 @@ def FMApplyFRSView(request):
 
 # ! https://www.mygreatlearning.com/blog/face-recognition/
 # ! take live image of user from camera from attendance.html template and throw it here and try to match it with the all users saved encoded data files and show roll no.
-
-
-
-
-
-
-
-
-
-
-
-
-
-        # # print(f"email---------->{email_var}\npassword------------>{password_var}")
-        # validator = UserDetail.objects.filter(email = email_var, password = password_var).last()
-        # # validator = auth.authenticate(email__iexact = email_var, password__iexact = password_var)
-        # if validator is None:
-        #     return redirect('/users/login/error/')
-        # else:
-        #     # https://learndjango.com/tutorials/django-login-and-logout-tutorial
-        #     return redirect('/users/register/')
-
-    # else:
-    #     return render(request, 'register_student.html')
+# ! for loop the encoding files

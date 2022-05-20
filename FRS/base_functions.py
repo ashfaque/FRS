@@ -48,7 +48,7 @@ def save_face_data_while_creating_user(pk, instance, action='create', remarks=''
         # loop over the image paths
         for (i, imagePath) in enumerate(imagePaths):
             # extract the person name from the image path
-            name = imagePath.split(os.path.sep)[-2]
+            name = (imagePath.split(os.path.sep)[-2]).split('/')[-1]
             # load the input image and convert it from BGR (OpenCV ordering)
             # to dlib ordering (RGB)
             image = cv2.imread(imagePath)
@@ -67,7 +67,6 @@ def save_face_data_while_creating_user(pk, instance, action='create', remarks=''
         face_encoding_dir_path = os.path.join(settings.MEDIA_ROOT, "face_encoding_data")
         if not os.path.exists(face_encoding_dir_path):
             os.makedirs(face_encoding_dir_path)
-        print("------------face_encoding_dir_path------",face_encoding_dir_path)
         f = open(os.path.join(face_encoding_dir_path, profile_image_dict['roll_no']), "wb")
         f.write(pickle.dumps(data))
         f.close()
