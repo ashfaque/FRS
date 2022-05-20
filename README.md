@@ -9,6 +9,8 @@ Face Recognition System for Students' Attendance using Django &amp; ML
 ### Run these commands first
     python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic
 
+> https://github.com/fabiocaccamo/django-admin-interface
+`python manage.py loaddata admin_interface_theme_bootstrap.json`
 
 Django Admin: 127.0.0.1:8888/admin
 Username: admin
