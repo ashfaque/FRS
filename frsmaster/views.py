@@ -65,7 +65,8 @@ def FMApplyFRSView(request):
 
 
 
-
+# ! https://www.mygreatlearning.com/blog/face-recognition/
+# ! take live image of user from camera from attendance.html template and throw it here and try to match it with the all users saved encoded data files and show roll no.
 
 
 

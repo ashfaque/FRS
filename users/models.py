@@ -43,7 +43,7 @@ class UserDetail(AbstractUser):
     gender = models.CharField(choices=GENDER_CHOICE, max_length=10, blank=True, null=True)
     phone_no = models.CharField(max_length=10, blank=True, null=True)
     password_to_know = models.CharField(max_length=200, blank=True, null=True)
-    profile_img = models.FileField(upload_to=base_f.get_directory_path, blank=True, null=True)
+    profile_img = models.FileField(upload_to=base_f.get_directory_path, blank=True, null=True)    # * Can add more images for better accuracy.
     class_teacher = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, related_name='u_class_teacher')
     session = models.CharField(max_length=20, blank=True, null=True)
     semester = models.CharField(max_length=20, blank=True, null=True)
