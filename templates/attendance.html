@@ -145,24 +145,31 @@ https://codebeautify.org/base64-to-image-converter
                 }
             }
             return cookieValue;
-        }
-          console.log("before--------------")
+          }
+          console.log("before--------------");
           var URL = "{% url 'applyfrs' %}";
-          var csrfmiddlewaretoken = getCookie('csrftoken')
+          var csrfmiddlewaretoken = getCookie('csrftoken');
           var image_data = {'image':ctx, 'X-csrfmiddlewaretoken': csrfmiddlewaretoken};
-          //$.post(URL, image_data);
 
-          var saveData = $.ajax({
-            type: 'POST',
-            url: URL,
-            data: image_data,
-            dataType: "text",
-            processData: false,
-            success: function(resultData) { alert("Save Complete") }
-          });
-          saveData.error(function() { alert("Something went wrong"); });
 
-          console.log("after--------------")
+          $.post(URL, image_data, function(response){
+            if(response === 'success'){ alert('Yay!'); }
+            else { alert('Error! :');}})
+
+          // OR,
+
+          // var saveData = $.ajax({
+          //   type: 'POST',
+          //   url: URL,
+          //   data: image_data,
+          //   dataType: "text",
+          //   processData: false,
+          //   success: function(resultData) { alert("Save Complete") }
+          // });
+          // saveData.error(function() { alert("Something went wrong"); });
+
+
+          console.log("after--------------");
           // AA code ends
 
 

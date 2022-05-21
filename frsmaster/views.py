@@ -28,6 +28,23 @@ import os
 # @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
 def FMApplyFRSView(request):
     if request.method == 'POST':
+        # image=request.POST.get("image_data",None)
+        image=request.POST.get
+        # image = request.body['image']
+        # image = request.FILES.get('image_data', None)
+    # if image:
+        # print("image------------>",image)
+        print("image------------>",image)
+    # else: print("image not received----------------")
+    # raise APIException("ksdfsjkfj")
+
+
+    # ! only for testing remove this later
+    return Response(status=status.HTTP_202_ACCEPTED)
+
+
+
+    if request.method == 'POST':
         image = request.FILES.get('image', None)
 
         img_extension = os.path.splitext(image.name)[-1]
@@ -47,7 +64,7 @@ def FMApplyFRSView(request):
         # load the harcaascade in the cascade classifier
         faceCascade = cv2.CascadeClassifier(cascPathface)
         # load the known faces and embeddings saved in last file
-        
+
         face_encoding_dir_path = os.path.join(settings.MEDIA_ROOT, "face_encoding_data")
         files = os.listdir(face_encoding_dir_path)
 
@@ -65,7 +82,7 @@ def FMApplyFRSView(request):
                                                 minNeighbors=5,
                                                 minSize=(60, 60),
                                                 flags=cv2.CASCADE_SCALE_IMAGE)
-        
+
             # the facial embeddings for face in input
             encodings = face_recognition.face_encodings(rgb)
 
@@ -92,7 +109,7 @@ def FMApplyFRSView(request):
                         counts[name] = counts.get(name, 0) + 1
                         #set name which has highest count
                         name = max(counts, key=counts.get)
-            
+
                     # update the list of names
                     names.append(name)
                     print("roll no---------------->", names)
