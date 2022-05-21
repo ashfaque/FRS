@@ -28,8 +28,8 @@ import os
 # @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
 def FMApplyFRSView(request):
     if request.method == 'POST':
-        # image=request.POST.get("image_data",None)
-        image=request.POST.get
+        image=request.POST.get("image", None)
+        # image=request.POST.get
         # image = request.body['image']
         # image = request.FILES.get('image_data', None)
     # if image:

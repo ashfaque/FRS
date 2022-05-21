@@ -11,6 +11,7 @@ https://codebeautify.org/base64-to-image-converter
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Attendance</title>
+    {% block style %}
     <style>
       .button-group,
       .play-area {
@@ -41,7 +42,9 @@ https://codebeautify.org/base64-to-image-converter
         height: 240px;
       }
     </style>
+    {% endblock style %}
   </head>
+  {% block content %}
   <body>
     <!-- The buttons to control the stream -->
     <div class="button-group">
@@ -63,6 +66,7 @@ https://codebeautify.org/base64-to-image-converter
       </div>
     </div>
 
+    {% block javascript %}
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
       // The buttons to start & stop stream and to capture the image
@@ -130,6 +134,8 @@ https://codebeautify.org/base64-to-image-converter
 
 
 
+
+
           // AA code starts
           function getCookie(name) {
             var cookieValue = null;
@@ -146,31 +152,35 @@ https://codebeautify.org/base64-to-image-converter
             }
             return cookieValue;
           }
-          console.log("before--------------");
+          console.log("before-------------------");
           var URL = "{% url 'applyfrs' %}";
           var csrfmiddlewaretoken = getCookie('csrftoken');
           var image_data = {'image':ctx, 'X-csrfmiddlewaretoken': csrfmiddlewaretoken};
 
 
-          $.post(URL, image_data, function(response){
-            if(response === 'success'){ alert('Yay!'); }
-            else { alert('Error! :');}})
+          // $.post(URL, image_data, function(response){
+          //   if(response === 'success'){ alert('Yay!'); }
+          //   else { alert('Error! :');}})
 
           // OR,
 
-          // var saveData = $.ajax({
-          //   type: 'POST',
-          //   url: URL,
-          //   data: image_data,
-          //   dataType: "text",
-          //   processData: false,
-          //   success: function(resultData) { alert("Save Complete") }
-          // });
-          // saveData.error(function() { alert("Something went wrong"); });
+          var saveData = $.ajax({
+            type: 'POST',
+            url: URL,
+            data: image_data,
+            dataType: "text",    // json gives error
+            processData: false,
+            cache: false,
+            success: function(resultData) { alert("Save Complete") }
+          });
+          saveData.error(function() { alert("Something went wrong"); });
 
 
-          console.log("after--------------");
+          console.log("after--------------------");
           // AA code ends
+
+
+
 
 
 
@@ -185,5 +195,7 @@ https://codebeautify.org/base64-to-image-converter
         }
       }
     </script>
+    {% endblock javascript %}
   </body>
+  {% endblock content %}
 </html>
