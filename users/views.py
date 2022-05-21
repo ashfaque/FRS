@@ -16,7 +16,8 @@ def UserLoginView(request):
         user = UserDetail.objects.get(email__iexact=email_var)
         # if validator is not None:
         if user and user.check_password(password_var):
-            return redirect('/users/register/')
+            # return redirect('/users/register/')
+            return redirect('/users/attendance/')
         else:
             return redirect('/users/login/error/')
             # https://learndjango.com/tutorials/django-login-and-logout-tutorial
@@ -32,6 +33,9 @@ def ErrorLoginView(request):
 
 def UserRegisterView(request):
     return render(request, 'register_student.html')
+
+def UserAttendanceView(request):
+    return render(request, 'attendance.html')
 
 
 
