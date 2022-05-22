@@ -128,7 +128,7 @@ https://codebeautify.org/base64-to-image-converter
           var ctx = capture.getContext("2d");
           var img = new Image();
 
-          //ctx.drawImage(stream, 0, 0, capture.width, capture.height);
+          ctx.drawImage(stream, 0, 0, capture.width, capture.height);
 
 
 
@@ -184,11 +184,6 @@ https://codebeautify.org/base64-to-image-converter
 
           console.log("after--------------------");
           // AA code ends
-
-
-
-
-          ctx.drawImage(stream, 0, 0, capture.width, capture.height);
 
 
 
