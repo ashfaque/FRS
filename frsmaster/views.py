@@ -29,12 +29,17 @@ import os
 def FMApplyFRSView(request):
     if request.method == 'POST':
         # image=request.POST.get("image", None)
-        image=request.POST.get
+
+        with open(f"{settings.FRS_MEDIA_ROOT}/captured.jpg", 'wb+') as destination:
+            for chunk in request.POST.chunks():
+                destination.write(chunk)
+
+        # image=request.POST.get
         # image = request.body['image']
         # image = request.FILES.get('image_data', None)
+        # print("image------------>",image)
     # if image:
         # print("image------------>",image)
-        print("image------------>",image)
     # else: print("image not received----------------")
     # raise APIException("ksdfsjkfj")
 
