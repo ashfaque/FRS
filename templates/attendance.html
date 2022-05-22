@@ -128,7 +128,7 @@ https://codebeautify.org/base64-to-image-converter
           var ctx = capture.getContext("2d");
           var img = new Image();
 
-          ctx.drawImage(stream, 0, 0, capture.width, capture.height);
+          //ctx.drawImage(stream, 0, 0, capture.width, capture.height);
 
 
 
@@ -155,25 +155,31 @@ https://codebeautify.org/base64-to-image-converter
           console.log("before-------------------");
           var URL = "{% url 'applyfrs' %}";
           var csrfmiddlewaretoken = getCookie('csrftoken');
-          var image_data = {'image':ctx, 'X-csrfmiddlewaretoken': csrfmiddlewaretoken};
+          // Type casting object ctx to string.
+          var ctx_string = JSON.stringify(ctx);
+          var image_data = {'image':ctx_string, 'X-csrfmiddlewaretoken': csrfmiddlewaretoken};
 
+          console.log(typeof ctx);
+          console.log(typeof ctx_string);
+          console.log(ctx);
+          console.log('string--------------->', ctx_string);
 
-          // $.post(URL, image_data, function(response){
-          //   if(response === 'success'){ alert('Yay!'); }
-          //   else { alert('Error! :');}})
+          $.post(URL, image_data, function(response){
+            if(response === 'success'){ alert('Yay!'); }
+            else { alert('Error! :');}})
 
           // OR,
 
-          var saveData = $.ajax({
-            type: 'POST',
-            url: URL,
-            data: image_data,
-            dataType: "text",    // json gives error
-            processData: false,
-            cache: false,
-            success: function(resultData) { alert("Save Complete") }
-          });
-          saveData.error(function() { alert("Something went wrong"); });
+          // var saveData = $.ajax({
+          //   type: 'POST',
+          //   url: URL,
+          //   data: image_data,
+          //   dataType: "text/json",    // json gives error
+          //   processData: false,
+          //   cache: false,
+          //   success: function(resultData) { alert("Save Complete") }
+          // });
+          // saveData.error(function() { alert("Something went wrong"); });
 
 
           console.log("after--------------------");
@@ -182,7 +188,7 @@ https://codebeautify.org/base64-to-image-converter
 
 
 
-
+          ctx.drawImage(stream, 0, 0, capture.width, capture.height);
 
 
 
