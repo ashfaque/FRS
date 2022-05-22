@@ -29,6 +29,8 @@ import os
 def FMApplyFRSView(request):
     if request.method == 'POST':
         # image=request.POST.get("image", None)
+        image=request.POST.get
+        print("image------------>",image)
 
         with open(f"{settings.FRS_MEDIA_ROOT}/captured.jpg", 'wb+') as destination:
             for chunk in request.POST.chunks():
