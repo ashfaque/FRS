@@ -36,6 +36,10 @@ def FMApplyFRSView(request):
             for chunk in request.POST.chunks():
                 destination.write(chunk)
 
+        # ? from PIL import Image
+        # ? image_object = Image.open(blob)
+
+        # image=request.FILES['canvasImage.jpg']
         # image=request.POST.get
         # image = request.body['image']
         # image = request.FILES.get('image_data', None)
