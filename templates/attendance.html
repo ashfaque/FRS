@@ -183,9 +183,12 @@ https://codebeautify.org/base64-to-image-converter
           var dataURL = capture.toDataURL('image/jpeg', 0.5);
           var blob = dataURItoBlob(dataURL);
           var fd = new FormData(document.forms[0]);
-          // fd.append("canvasImage", blob);
+          fd.append("canvasImage", blob);
           var file = new File( [blob], 'canvasImage.jpg', { type: 'image/jpeg' } );
-          fd.append("canvasImage", file);
+          // fd.append("canvasImage", file);
+          console.log("----blob-----", blob)
+          console.log("----file-----", file)
+          console.log("-----formdata----", fd)
 
 
 
@@ -195,10 +198,10 @@ https://codebeautify.org/base64-to-image-converter
           var ctx_string = JSON.stringify(ctx);
           var image_data = {'image':ctx_string, 'X-csrfmiddlewaretoken': csrfmiddlewaretoken};
 
-          console.log(typeof ctx);
-          console.log(typeof ctx_string);
-          console.log(ctx);
-          console.log('string--------------->', ctx_string);
+          // console.log(typeof ctx);
+          // console.log(typeof ctx_string);
+          // console.log(ctx);
+          // console.log('string--------------->', ctx_string);
 
           // $.post(URL, image_data, function(response){
           //   if(response === 'success'){ alert('Yay!'); }
