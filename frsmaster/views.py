@@ -15,6 +15,11 @@ import pickle
 import time
 import cv2
 import os
+import logging
+
+
+log = logging.getLogger(__name__)
+# log.info('text',variable)      # Usage
 
 
 # ? Api to take forms data along with 5 images and apply frs on it and save it in db using student id as fkey and 5 images data in mapping table.
@@ -29,12 +34,36 @@ import os
 def FMApplyFRSView(request):
     if request.method == 'POST':
         # image=request.POST.get("image", None)
-        image=request.POST.get
-        print("image------------>",image)
+        image_in_base64 = request.POST.get('image-base64', None)
+        # log.info('image------------------------->',image_in_base64)
+        # print("image------------>",image_in_base64)
+        
+        # ? https://www.codegrepper.com/code-examples/python/python+convert+base64+to+image
 
-        with open(f"{settings.FRS_MEDIA_ROOT}/captured.jpg", 'wb+') as destination:
-            for chunk in request.POST.chunks():
-                destination.write(chunk)
+        # import re
+        # image_in_base64 = re.sub("/[data:image\/[a-z]*;[a-z0-9]*,.*]/gm", "", image_in_base64)    # Removing : `data:image/jpeg;base64,`
+        # print("-----",image_in_base64[:22])
+
+        import io, base64
+        from PIL import Image
+        # img = Image.open(io.BytesIO(base64.decodebytes(bytes(image_in_base64, "utf-8"))))
+        img = Image.open(io.BytesIO(base64.decodebytes(bytes(image_in_base64[22:], "utf-8"))))
+        rgb_im = img.convert('RGB')
+        rgb_im.save(f"{settings.FRS_MEDIA_ROOT}captured.jpg")
+        # img.save(f"{settings.FRS_MEDIA_ROOT}captured.png")
+
+        # image_in_base64 = image_in_base64.encode('utf-8')
+        # image_64_decode = base64.decodebytes(image_in_base64)
+        
+        
+        
+        # with open(f"{settings.FRS_MEDIA_ROOT}captured.jpg", 'wb+') as image_result:
+            # image_result.write(image_64_decode)
+
+        # print("image------------>",image)
+        # log.info('text-------------->',str(image))      # Usage
+            
+
 
         # ? from PIL import Image
         # ? image_object = Image.open(blob)
@@ -50,25 +79,31 @@ def FMApplyFRSView(request):
     # raise APIException("ksdfsjkfj")
 
 
-    # ! only for testing remove this later
-    return Response(status=status.HTTP_202_ACCEPTED)
 
 
 
-    if request.method == 'POST':
-        image = request.FILES.get('image', None)
 
-        img_extension = os.path.splitext(image.name)[-1]
+    # if request.method == 'POST':
+        # image = request.FILES.get('image', None)
+
+        # img_extension = os.path.splitext(image.name)[-1]
 
 # ! SAVE IMG taken from camera
 
 
-        if os.path.exists(settings.FRS_MEDIA_ROOT + "captured" + img_extension):
-            # print(settings.FRS_MEDIA_ROOT + "captured" + img_extension)
-            os.remove(settings.FRS_MEDIA_ROOT + "captured" + img_extension)
+        image = os.path.join(settings.FRS_MEDIA_ROOT, "captured.jpg")
+        img_extension = '.' + image.split('.')[-1]
+        captured_image_full_path = image
+        
+        
 
-        img_path = default_storage.save(settings.FRS_MEDIA_ROOT + "captured" + img_extension, image)
-        captured_image_full_path = os.path.join(settings.FRS_MEDIA_ROOT, f"captured{img_extension}")
+
+        # * if os.path.exists(settings.FRS_MEDIA_ROOT + "captured" + img_extension):
+        # *     # print(settings.FRS_MEDIA_ROOT + "captured" + img_extension)
+        # *     os.remove(settings.FRS_MEDIA_ROOT + "captured" + img_extension)
+
+        # img_path = default_storage.save(settings.FRS_MEDIA_ROOT + "captured" + img_extension, image)
+        # captured_image_full_path = os.path.join(settings.FRS_MEDIA_ROOT, f"captured{img_extension}")
 
         #find path of xml file containing haarcascade file
         cascPathface = os.path.dirname(cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"

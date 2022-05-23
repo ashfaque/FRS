@@ -220,11 +220,6 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
 
           $.ajax({
             url: URL,
-            headers: {
-                'Authorization':'Basic xxxxxxxxxxxxx',
-                'X-CSRF-TOKEN':'xxxxxxxxxxxxxxxxxxxx',
-                'Content-Type':'application/json'
-            },
             method: 'POST',
             dataType: 'json',
             data: data,
@@ -232,7 +227,7 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
               console.log('succes: '+data);
             },
             error: function(err){
-                console.log(err)
+                console.log(err);
             }
           });
 
