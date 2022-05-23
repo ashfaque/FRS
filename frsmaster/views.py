@@ -44,6 +44,11 @@ def FMApplyFRSView(request):
         # image_in_base64 = re.sub("/[data:image\/[a-z]*;[a-z0-9]*,.*]/gm", "", image_in_base64)    # Removing : `data:image/jpeg;base64,`
         # print("-----",image_in_base64[:22])
 
+        if image_in_base64:
+            if os.path.exists(settings.FRS_MEDIA_ROOT + "captured.jpg"):
+                # print(settings.FRS_MEDIA_ROOT + "captured.jpg")
+                os.remove(settings.FRS_MEDIA_ROOT + "captured.jpg")
+
         import io, base64
         from PIL import Image
         # img = Image.open(io.BytesIO(base64.decodebytes(bytes(image_in_base64, "utf-8"))))
@@ -90,17 +95,14 @@ def FMApplyFRSView(request):
 
 # ! SAVE IMG taken from camera
 
+        
 
-        image = os.path.join(settings.FRS_MEDIA_ROOT, "captured.jpg")
-        img_extension = '.' + image.split('.')[-1]
-        captured_image_full_path = image
+        captured_image_full_path = os.path.join(settings.FRS_MEDIA_ROOT, "captured.jpg")
+        # img_extension = '.' + image.split('.')[-1]
         
         
 
 
-        # * if os.path.exists(settings.FRS_MEDIA_ROOT + "captured" + img_extension):
-        # *     # print(settings.FRS_MEDIA_ROOT + "captured" + img_extension)
-        # *     os.remove(settings.FRS_MEDIA_ROOT + "captured" + img_extension)
 
         # img_path = default_storage.save(settings.FRS_MEDIA_ROOT + "captured" + img_extension, image)
         # captured_image_full_path = os.path.join(settings.FRS_MEDIA_ROOT, f"captured{img_extension}")
