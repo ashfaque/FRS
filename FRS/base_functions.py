@@ -24,14 +24,16 @@ def get_directory_path(instance, filename):
 
 
 def save_face_data_while_creating_user(pk, instance, action='create', remarks=''):
-    # ! Apply FRS here and save the string data somewhere in DB.
+
+    # * Applying FRS here and saving encoded data in media directory.
     # ? https://www.mygreatlearning.com/blog/face-recognition/
+
     from users.models import UserDetail
     # UserActionLog.objects.create(user=user, action=action, table_name=table_name, entity_id=entity_id, remarks=remarks)
     profile_image_dict = UserDetail.objects.filter(id = pk).values("profile_img", "roll_no").last()
     if profile_image_dict['profile_img']:
 
-        # print("###############  APPLY FRS HERE, FRS ENCODING DATA SAVED IN MEDIA DIR WITH ROLL NUMBER WISE IN EACH FILE  ########################----->", profile_image_dict['profile_img'])
+        # print("###############  Image path  ########################----->", profile_image_dict['profile_img'])
 
         from imutils import paths
         import face_recognition
@@ -39,12 +41,13 @@ def save_face_data_while_creating_user(pk, instance, action='create', remarks=''
         import cv2
         import os
 
-        #get paths of each file in folder named Images
-        #Images here contains my data(folders of various persons)
+        # get paths of each file in folder named Images
+        # Images here contains my data (folders of various persons)
         user_image_dir_path = '/'.join(profile_image_dict['profile_img'].split('/')[0:4])
         imagePaths = list(paths.list_images(os.path.join(settings.MEDIA_ROOT, user_image_dir_path)))
         knownEncodings = []
         knownRollNo = []
+
         # loop over the image paths
         for (i, imagePath) in enumerate(imagePaths):
             # extract the person name from the image path
@@ -61,15 +64,20 @@ def save_face_data_while_creating_user(pk, instance, action='create', remarks=''
             for encoding in encodings:
                 knownEncodings.append(encoding)
                 knownRollNo.append(name)
+
         #save encodings along with their names in dictionary data
         data = {"encodings": knownEncodings, "names": knownRollNo}
+
         #use pickle to save data into a file for later use
         face_encoding_dir_path = os.path.join(settings.MEDIA_ROOT, "face_encoding_data")
+
         if not os.path.exists(face_encoding_dir_path):
             os.makedirs(face_encoding_dir_path)
+
         f = open(os.path.join(face_encoding_dir_path, profile_image_dict['roll_no']), "wb")
         f.write(pickle.dumps(data))
         f.close()
+
         print(f"""
               Image--------> {imagePaths}\n
               Encoded file---------->{face_encoding_dir_path}\n""")

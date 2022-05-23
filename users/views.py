@@ -31,8 +31,8 @@ def ErrorLoginView(request):
     return render(request, 'error_login.html')
 
 
-def UserRegisterView(request):
-    return render(request, 'register_student.html')
+# def UserRegisterView(request):
+#     return render(request, 'register_student.html')
 
 def UserAttendanceView(request):
     return render(request, 'attendance.html')
