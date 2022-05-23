@@ -30,15 +30,15 @@ def save_face_data_while_creating_user(pk, instance, action='create', remarks=''
     # UserActionLog.objects.create(user=user, action=action, table_name=table_name, entity_id=entity_id, remarks=remarks)
     profile_image_dict = UserDetail.objects.filter(id = pk).values("profile_img", "roll_no").last()
     if profile_image_dict['profile_img']:
-        
-        print("###############  APPLY FRS HERE, FRS ENCODING DATA SAVED IN MEDIA DIR WITH ROLL NUMBER WISE IN EACH FILE  ########################----->", profile_image_dict['profile_img'])
-        
+
+        # print("###############  APPLY FRS HERE, FRS ENCODING DATA SAVED IN MEDIA DIR WITH ROLL NUMBER WISE IN EACH FILE  ########################----->", profile_image_dict['profile_img'])
+
         from imutils import paths
         import face_recognition
         import pickle
         import cv2
         import os
-        
+
         #get paths of each file in folder named Images
         #Images here contains my data(folders of various persons)
         user_image_dir_path = '/'.join(profile_image_dict['profile_img'].split('/')[0:4])
@@ -70,3 +70,6 @@ def save_face_data_while_creating_user(pk, instance, action='create', remarks=''
         f = open(os.path.join(face_encoding_dir_path, profile_image_dict['roll_no']), "wb")
         f.write(pickle.dumps(data))
         f.close()
+        print(f"""
+              Image--------> {imagePaths}\n
+              Encoded file---------->{face_encoding_dir_path}\n""")

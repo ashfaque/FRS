@@ -14,6 +14,7 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Attendance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     {% block style %}
     <style>
       .button-group,
@@ -41,35 +42,51 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
 
       #snapshot {
         display: inline-block;
-        width: 320px;
-        height: 240px;
+        width: 480px;
+        height: 360px;
       }
     </style>
     {% endblock style %}
   </head>
   {% block content %}
-  <body>
-    <!-- The buttons to control the stream -->
-    <div class="button-group">
-      <button id="btn-start" type="button" class="button">Start Streaming</button>
-      <button id="btn-stop" type="button" class="button">Stop Streaming</button>
-      <button id="btn-capture" type="button" class="button">Capture Image</button>
-    </div>
+  <body class="text-light bg-dark">
+
+    <h1 style="text-align: center;" class="mt-5">Take Attendance</h1>
 
     <!-- Video Element & Canvas -->
-    <div class="play-area">
-      <div class="play-area-sub">
-        <h3>The Stream</h3>
-        <video id="stream" width="320" height="240"></video>
-      </div>
-      <div class="play-area-sub">
-        <h3>The Capture</h3>
-        <canvas id="capture" width="320" height="240"></canvas>
-        <div id="snapshot"></div>
-      </div>
+    <div class="play-area" style="text-align: center; border: none !important; width:100%;">
+      <table style="margin-left: auto; margin-right: auto;">
+        <tr>
+          <th>Webcam</th>
+          <th>Captured Image</th>
+        </tr>
+        <tr>
+          <td style="padding: 0 15px;">
+            <div class="play-area-sub" style="text-align: center; border: none !important; width:100%;">
+              <!-- <h3>Webcam</h3> -->
+              <video id="stream" width="480" height="360"></video>
+            </div>
+          </td>
+          <td style="padding: 0 15px;">
+            <div class="play-area-sub" style="text-align: center; border: none !important; width:100%;">
+              <!-- <h3>Captured Image</h3> -->
+              <canvas id="capture" width="480" height="360"></canvas>
+              <div id="snapshot"></div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- The buttons to control the stream -->
+    <div class="button-group" style="text-align: center; border: none !important;">
+      <button id="btn-start" type="button" class="button btn btn-primary">Start Streaming</button>
+      <button id="btn-stop" type="button" class="button btn btn-danger">Stop Streaming</button>
+      <button id="btn-capture" type="button" class="button btn btn-success">Capture Image</button>
     </div>
 
     {% block javascript %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
       // The buttons to start & stop stream and to capture the image
@@ -135,80 +152,65 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
 
 
 
-
-
-
-
-
-
           ///////////////////////////////// AA code starts /////////////////////////////////
 
-          function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-          }
+          // function getCookie(name) {
+          //   var cookieValue = null;
+          //   if (document.cookie && document.cookie !== '') {
+          //       var cookies = document.cookie.split(';');
+          //       for (var i = 0; i < cookies.length; i++) {
+          //           var cookie = jQuery.trim(cookies[i]);
+          //           // Does this cookie string begin with the name we want?
+          //           if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          //               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          //               break;
+          //           }
+          //       }
+          //   }
+          //   return cookieValue;
+          // }
 
 
-          function dataURItoBlob(dataURI) {
-            // convert base64/URLEncoded data component to raw binary data held in a string
-            var byteString;
-            if (dataURI.split(',')[0].indexOf('base64') >= 0)
-                byteString = atob(dataURI.split(',')[1]);
-            else
-                byteString = unescape(dataURI.split(',')[1]);
+          // function dataURItoBlob(dataURI) {
+          //   // convert base64/URLEncoded data component to raw binary data held in a string
+          //   var byteString;
+          //   if (dataURI.split(',')[0].indexOf('base64') >= 0)
+          //       byteString = atob(dataURI.split(',')[1]);
+          //   else
+          //       byteString = unescape(dataURI.split(',')[1]);
+          //
+          //   // separate out the mime component
+          //   var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+          //
+          //   // write the bytes of the string to a typed array
+          //   var ia = new Uint8Array(byteString.length);
+          //   for (var i = 0; i < byteString.length; i++) {
+          //       ia[i] = byteString.charCodeAt(i);
+          //   }
+          //
+          //   return new Blob([ia], {type:mimeString});
+          // }
 
-            // separate out the mime component
-            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
-            // write the bytes of the string to a typed array
-            var ia = new Uint8Array(byteString.length);
-            for (var i = 0; i < byteString.length; i++) {
-                ia[i] = byteString.charCodeAt(i);
-            }
+          // console.log("before-------------------");    /////////////////////////////////
 
-            return new Blob([ia], {type:mimeString});
-          }
-
-
-          console.log("before-------------------");    /////////////////////////////////
-
-          var dataURL = capture.toDataURL('image/jpeg', 0.5);
-          var blob = dataURItoBlob(dataURL);
-          var fd = new FormData(document.forms[0]);
-          fd.append("canvasImage", blob);
-          var file = new File( [blob], 'canvasImage.jpg', { type: 'image/jpeg' } );
-          // fd.append("canvasImage", file);
-          console.log("----blob-----", blob)
-          console.log("----file-----", file)
-          console.log("-----formdata----", fd)
+          // var dataURL = capture.toDataURL('image/jpeg', 0.5);
+          // var blob = dataURItoBlob(dataURL);
+          // var fd = new FormData(document.forms[0]);
+          // fd.append("canvasImage", blob);
+          // var file = new File( [blob], 'canvasImage.jpg', { type: 'image/jpeg' } );
+          // // fd.append("canvasImage", file);
+          // console.log("----blob-----", blob)
+          // console.log("----file-----", file)
+          // console.log("-----formdata----", fd)
 
 
 
           var URL = "{% url 'applyfrs' %}";
-          var csrfmiddlewaretoken = getCookie('csrftoken');
+          // var csrfmiddlewaretoken = getCookie('csrftoken');
           // Type casting object ctx to string.
-          var ctx_string = JSON.stringify(ctx);
-          var image_data = {'image':ctx_string, 'X-csrfmiddlewaretoken': csrfmiddlewaretoken};
-
-          // console.log(typeof ctx);
-          // console.log(typeof ctx_string);
-          // console.log(ctx);
-          // console.log('string--------------->', ctx_string);
-
-          // $.post(URL, image_data, function(response){
-          //   if(response === 'success'){ alert('Yay!'); }
-          //   else { alert('Error! :');}})
+          // var ctx_string = JSON.stringify(ctx);
+          // var image_data = {'image':ctx_string, 'X-csrfmiddlewaretoken': csrfmiddlewaretoken};
 
           // OR,
 
@@ -224,25 +226,14 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
             dataType: 'json',
             data: data,
             success: function(data){
-              console.log('succes: '+data);
+              console.log('success: '+data);
             },
             error: function(err){
                 console.log(err);
             }
           });
 
-        //  var saveData = $.ajax({
-        //    type: 'POST',
-        //    url: URL,
-        //    data: fd,
-        //    processData: false,
-        //    cache: false,
-        //    success: function(resultData) { alert("Save Complete") }
-        //    
-        //  });
-        //  saveData.error(function() { alert("Something went wrong"); });
-
-          console.log("after--------------------");    /////////////////////////////////
+          // console.log("after--------------------");    /////////////////////////////////
 
           ///////////////////////////////// AA code ends /////////////////////////////////
 
@@ -250,7 +241,8 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
 
           img.src = capture.toDataURL("image/png");
           // img.src = b64;
-          img.width = 240;
+          img.width = 480;
+          img.height = 360;
 
           snapshot.innerHTML = "";
 
