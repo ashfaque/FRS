@@ -212,15 +212,40 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
 
           // OR,
 
-          var saveData = $.ajax({
-            type: 'POST',
+          let b64 = capture.toDataURL("image/png");
+          console.log("Base64------->",b64);
+
+          let data = {"image-base64": b64}
+          // let data = {"image-base64": "ffffffffffffffff"}
+
+          $.ajax({
             url: URL,
-            data: fd,
-            processData: false,
-            cache: false,
-            success: function(resultData) { alert("Save Complete") }
+            headers: {
+                'Authorization':'Basic xxxxxxxxxxxxx',
+                'X-CSRF-TOKEN':'xxxxxxxxxxxxxxxxxxxx',
+                'Content-Type':'application/json'
+            },
+            method: 'POST',
+            dataType: 'json',
+            data: data,
+            success: function(data){
+              console.log('succes: '+data);
+            },
+            error: function(err){
+                console.log(err)
+            }
           });
-          saveData.error(function() { alert("Something went wrong"); });
+
+        //  var saveData = $.ajax({
+        //    type: 'POST',
+        //    url: URL,
+        //    data: fd,
+        //    processData: false,
+        //    cache: false,
+        //    success: function(resultData) { alert("Save Complete") }
+        //    
+        //  });
+        //  saveData.error(function() { alert("Something went wrong"); });
 
           console.log("after--------------------");    /////////////////////////////////
 
@@ -229,6 +254,7 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
 
 
           img.src = capture.toDataURL("image/png");
+          // img.src = b64;
           img.width = 240;
 
           snapshot.innerHTML = "";
