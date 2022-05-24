@@ -8,6 +8,9 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from django.conf import settings
 from rest_framework.exceptions import APIException
+from django.db import transaction
+from users.models import UserDetail
+from .models import Attendance
 
 import face_recognition
 import imutils
@@ -163,6 +166,14 @@ def FMApplyFRSView(request):
                     print("roll no---------------->", names)
                     # loop over the recognized faces
                 if len(names) != 0: break
+
+        for index, roll_no in enumerate(names):
+            try:
+                with transaction.atomic():
+                    student_obj = UserDetail.objects.filter(roll_no__iexact = roll_no).first()
+                    attendance = Attendance.objects.create(user = student_obj,)
+            except Exception as e:
+                raise e
 
         return Response({
             # "success":[
