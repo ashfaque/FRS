@@ -26,7 +26,9 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
 
       .button {
         padding: 0.5em;
-        margin-right: 1em;
+        margin-right: 1.5em;
+        min-width: 10em;
+        max-width: 10em;
       }
 
       .play-area-sub {
@@ -51,10 +53,13 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
   {% block content %}
   <body class="text-light bg-dark">
 
-    <h1 style="text-align: center;" class="mt-3">Take Attendance</h1>
+    <div class="mt-3 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 d-grid gap-2 d-md-flex justify-content-md-end" style="text-align: center; border: none !important; width:100%;">
+      <button id="btn-login" type="button" class="button btn btn-outline-secondary btn-sm" style="float: right;" onclick="window.location='{% url 'login' %}';">Admin Login</button>
+    </div>
+    <!-- <h1 style="text-align: center;" class="mt-3">Take Attendance</h1> -->
 
     <!-- Video Element & Canvas -->
-    <div class="play-area" style="text-align: center; border: none !important; width:100%;">
+    <div class="play-area col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3" style="text-align: center; border: none !important; width:100%;">
       <table style="margin-left: auto; margin-right: auto;">
         <tr>
           <th>Webcam</th>
@@ -62,13 +67,13 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
         </tr>
         <tr>
           <td style="padding: 0 15px;">
-            <div class="play-area-sub" style="text-align: center; border: none !important; width:100%;">
+            <div class="play-area-sub col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3" style="text-align: center; border: none !important; width:100%;">
               <!-- <h3>Webcam</h3> -->
               <video id="stream" width="480" height="360"></video>
             </div>
           </td>
           <td style="padding: 0 15px;">
-            <div class="play-area-sub" style="text-align: center; border: none !important; width:100%;">
+            <div class="play-area-sub col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3" style="text-align: center; border: none !important; width:100%;">
               <!-- <h3>Captured Image</h3> -->
               <canvas id="capture" width="480" height="360"></canvas>
               <div id="snapshot"></div>
@@ -79,10 +84,10 @@ https://www.codegrepper.com/code-examples/python/frameworks/django/django+post+w
     </div>
 
     <!-- The buttons to control the stream -->
-    <div class="button-group" style="text-align: center; border: none !important;">
-      <button id="btn-start" type="button" class="button btn btn-primary">Start Streaming</button>
-      <button id="btn-stop" type="button" class="button btn btn-danger">Stop Streaming</button>
-      <button id="btn-capture" type="button" class="button btn btn-success">Capture Image</button>
+    <div class="button-group mx-auto" style="text-align: center; border: none !important;">
+      <button id="btn-start" type="button" class="button btn btn-primary btn-sm col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">Start Streaming</button>
+      <button id="btn-stop" type="button" class="button btn btn-danger btn-sm col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">Stop Streaming</button>
+      <button id="btn-capture" type="button" class="button btn btn-success btn-sm col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">Capture Image</button>
     </div>
 
     {% block javascript %}
