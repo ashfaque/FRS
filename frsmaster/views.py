@@ -40,7 +40,7 @@ def FMApplyFRSView(request):
         image_in_base64 = request.POST.get('image-base64', None)
         # log.info('image------------------------->',image_in_base64)
         # print("image------------>",image_in_base64)
-        
+
         # ? https://www.codegrepper.com/code-examples/python/python+convert+base64+to+image
 
         # import re
@@ -62,15 +62,15 @@ def FMApplyFRSView(request):
 
         # image_in_base64 = image_in_base64.encode('utf-8')
         # image_64_decode = base64.decodebytes(image_in_base64)
-        
-        
-        
+
+
+
         # with open(f"{settings.FRS_MEDIA_ROOT}captured.jpg", 'wb+') as image_result:
             # image_result.write(image_64_decode)
 
         # print("image------------>",image)
         # log.info('text-------------->',str(image))      # Usage
-            
+
 
 
         # ? from PIL import Image
@@ -98,12 +98,12 @@ def FMApplyFRSView(request):
 
 # ! SAVE IMG taken from camera
 
-        
+
 
         captured_image_full_path = os.path.join(settings.FRS_MEDIA_ROOT, "captured.jpg")
         # img_extension = '.' + image.split('.')[-1]
-        
-        
+
+
 
 
 
