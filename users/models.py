@@ -39,7 +39,7 @@ class UserDetail(AbstractUser):
     user_type = models.CharField(choices=USER_TYPE_CHOICE, max_length=20, default='student')
     middle_name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(max_length=70,) # unique=True
-    roll_no = models.CharField(default=return_timestamped_roll, max_length=255, blank=True, null=True)
+    roll_no = models.CharField(default=return_timestamped_roll, max_length=255, blank=True, null=True, unique=True)
     gender = models.CharField(choices=GENDER_CHOICE, max_length=10, blank=True, null=True)
     phone_no = models.CharField(max_length=10, blank=True, null=True)
     password_to_know = models.CharField(max_length=200, blank=True, null=True)
@@ -68,6 +68,17 @@ class UserDetail(AbstractUser):
         # return str(self.id)
         # return f"{self.first_name} - {self.last_name}"
         return str(self.first_name + ' ' + self.last_name)
+    
+    # ? Used to show name of foreign key in django admin. (Not Working Though)
+    def __unicode__(self):
+        return u'%s %s' % (self.first_name, self.last_name)
+        
+    # ? Custom field by taking existing fields from this model. We can call `full_name` just like any other normal fields.
+    @property
+    def full_name(self):
+        "Returns the person's full name."
+        return '%s %s' % (self.first_name, self.last_name)    
+
 
     class Meta:
         db_table = 'user_user_detail'
