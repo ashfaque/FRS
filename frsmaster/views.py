@@ -11,6 +11,10 @@ from rest_framework.exceptions import APIException
 from django.db import transaction
 from users.models import UserDetail
 from .models import Attendance
+from .filters import AttendanceFilter
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 import face_recognition
 import imutils
@@ -187,3 +191,13 @@ def FMApplyFRSView(request):
 # ! https://www.mygreatlearning.com/blog/face-recognition/
 # ! take live image of user from camera from attendance.html template and throw it here and try to match it with the all users saved encoded data files and show roll no.
 # ! for loop the encoding files
+
+
+@login_required(login_url = 'login')
+def FMAttendanceReportView(request):
+    attendance = Attendance.objects.all()
+    # attendance = Attendance.objects.filter(is_deleted=False)
+    myFilter = AttendanceFilter(request.GET, queryset=attendance)
+    attendances = myFilter.qs
+    context = {'myFilter':myFilter, 'attendances': attendances}
+    return render(request, 'attendance_report.html', context)

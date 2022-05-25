@@ -11,7 +11,7 @@ from django.contrib import messages
 
 def UserLoginView(request):
     if request.user.is_authenticated:    # ? If already logged in then it will redirect to landing page.
-        return redirect('/users/attendance/report/')
+        return redirect('/frsmaster/attendance/report/')
     if request.method == 'POST':
         username_var = request.POST['username']
         password_var = request.POST['password']
@@ -27,7 +27,7 @@ def UserLoginView(request):
                 if user_authenticate is not None:
                     login(request, user_authenticate)
                     # return redirect('/users/register/')
-                    return redirect('/users/attendance/report/')
+                    return redirect('/frsmaster/attendance/report/')
                 else:
                     messages.info(request, 'Username or Password is incorrect')
             else:
@@ -52,9 +52,9 @@ def UserAttendanceView(request):
     return render(request, 'attendance.html')
 
 
-@login_required(login_url = 'login')
-def UserAttendanceReportView(request):
-    return render(request, 'attendance_report.html')
+# @login_required(login_url = 'login')
+# def UserAttendanceReportView(request):
+#     return render(request, 'attendance_report.html')
 
 
 @login_required(login_url = 'login')
