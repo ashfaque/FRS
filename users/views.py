@@ -10,6 +10,8 @@ from django.contrib import messages
 
 
 def UserLoginView(request):
+    if request.user.is_authenticated:    # ? If already logged in then it will redirect to landing page.
+        return redirect('/users/attendance/report/')
     if request.method == 'POST':
         username_var = request.POST['username']
         password_var = request.POST['password']
