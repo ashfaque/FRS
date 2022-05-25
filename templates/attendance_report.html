@@ -14,38 +14,39 @@
     </head>
 
 {% block content %}
-<body>
-<!-- <body class="text-light bg-dark"> -->
+<!-- <body> -->
+<body class="text-light bg-dark">
 
-    {% for message in messages %} 
+    {% for message in messages %}
         {% if message.tags == 'error' %}
             <div class="alert alert-danger">{{ message }}</div>
         {% else %}
             <div class="alert alert-success">{{ message }}</div>
-        {% endif %} 
+        {% endif %}
     {% endfor %}
 
-    <center><h1>Attendance Report</h1></center>
-    <div class="row">
-    <div class="col">
-        <div class="card card-body">
-            <center>
-                <form method="get">
-                    {{myFilter.form}}
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </form>
-            </center>
+    <center><h2>Attendance Report</h2></center>
+    <div class="row" style="max-width: 100% !important;">
+        <div class="col">
+            <div class="card card-body text-light bg-dark" style="float: right;">
+                <center>
+                    <form method="get">
+                        {{myFilter.form}}
+                        <button type="submit" class="button btn btn-secondary btn-sm col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3" style="min-width: 8em; max-width: 8em; margin-right: 1.5em; padding: 0.4em;">Search</button>
+                    </form>
+                </center>
+            </div>
         </div>
-    </div>
     </div>
     <br />
 
-    <div class="row">
+    <div class="row" style="max-width: 100% !important;">
         <div class="col-sm-12">
-            <div class="card card-body">
-                <table class="table table-sm">
+            <div class="card card-body text-light bg-dark">
+                <table class="table table-sm table-dark table-striped table-hover table-borderless" style="text-align: center;">
+                    <thead>
                     <tr>
-                        <th>Student Name</th>
+                        <th>Students' Name</th>
                         <th>Roll No.</th>
                         <th>Gender</th>
                         <th>College</th>
@@ -55,20 +56,23 @@
                         <th>Session</th>
                         <th>Date</th>
                     </tr>
+                    </thead>
 
-                    {% for attendance in attendances %}
-                        <tr>
-                            <td>{{ attendance.user.full_name }}</td>
-                            <td>{{ attendance.user.roll_no }}</td>
-                            <td>{{ attendance.user.gender }}</td>
-                            <td>{{ attendance.user.college }}</td>
-                            <td>{{ attendance.user.department }}</td>
-                            <td>{{ attendance.user.sub_department }}</td>
-                            <td>{{ attendance.user.semester }}</td>
-                            <td>{{ attendance.user.session }}</td>
-                            <td>{{ attendance.date }}</td>
-                        </tr>
-                    {% endfor %}
+                    <tbody class="table-group-divider">
+                        {% for attendance in attendances %}
+                            <tr>
+                                <td>{{ attendance.user.full_name }}</td>
+                                <td>{{ attendance.user.roll_no }}</td>
+                                <td>{{ attendance.user.gender }}</td>
+                                <td>{{ attendance.user.college }}</td>
+                                <td>{{ attendance.user.department }}</td>
+                                <td>{{ attendance.user.sub_department }}</td>
+                                <td>{{ attendance.user.semester }}</td>
+                                <td>{{ attendance.user.session }}</td>
+                                <td>{{ attendance.date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>
