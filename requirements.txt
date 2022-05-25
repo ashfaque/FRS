@@ -41,6 +41,7 @@ prompt-toolkit==3.0.29
 psycopg2-binary==2.8.6
 pycparser==2.21
 pyparsing==3.0.7
+python-dateutil==2.8.2
 pytz==2022.1
 pytz-deprecation-shim==0.1.0.post0
 redis==4.2.2

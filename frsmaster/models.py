@@ -2,6 +2,7 @@ from django.db import models
 from users.models import UserDetail
 from django.utils import timezone
 from django.conf import settings
+from dateutil.relativedelta import relativedelta
 
 # Create your models here.
 
@@ -29,6 +30,11 @@ class Attendance(models.Model):
 
     def __str__(self):    # ? Shows the details of specific fields if a user prints the 'instance' of this model.
         return str(self.id)
+    
+    # ? Custom field by taking existing fields from this model. We can call `actual_date` just like any other normal fields.
+    @property
+    def actual_date(self):
+        return '%s' % (self.date + relativedelta(hours=+6),)
 
     class Meta:
         db_table = 'attendance'

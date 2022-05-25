@@ -197,7 +197,7 @@ def FMApplyFRSView(request):
 def FMAttendanceReportView(request):
     attendance = Attendance.objects.all()
     # attendance = Attendance.objects.filter(is_deleted=False)
-    myFilter = AttendanceFilter(request.GET, queryset=attendance)
+    myFilter = AttendanceFilter(request.GET, queryset=attendance)    # Remove `date` from `exclude` if want `date` filter from AttendanceFilter in filters.py.
     attendances = myFilter.qs
     context = {'myFilter':myFilter, 'attendances': attendances}
     return render(request, 'attendance_report.html', context)
