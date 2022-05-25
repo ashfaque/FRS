@@ -40,31 +40,37 @@
     <br />
 
     <div class="row">
-    <div class="col-sm-12">
-        <div class="card card-body">
-        <table class="table table-sm">
-            <tr>
-            <th>Student ID</th>
-            <th>Branch</th>
-            <th>Year</th>
-            <th>Section</th>
-            <th>Period</th>
-            <th>Status</th>
-            </tr>
+        <div class="col-sm-12">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Roll No.</th>
+                        <th>Gender</th>
+                        <th>College</th>
+                        <th>Department</th>
+                        <th>Sub-Department</th>
+                        <th>Semester</th>
+                        <th>Session</th>
+                        <th>Date</th>
+                    </tr>
 
-            {% for attendence in attendences %}
-                <tr>
-                <td>{{ attendence.Student_ID }}</td>
-                <td>{{ attendence.branch }}</td>
-                <td>{{ attendence.year }}</td>
-                <td>{{ attendence.section }}</td>
-                <td>{{ attendence.period }}</td>
-                <td>{{ attendence.status }}</td>
-                </tr>
-            {% endfor %}
-        </table>
+                    {% for attendance in attendances %}
+                        <tr>
+                            <td>{{ attendance.user.full_name }}</td>
+                            <td>{{ attendance.user.roll_no }}</td>
+                            <td>{{ attendance.user.gender }}</td>
+                            <td>{{ attendance.user.college }}</td>
+                            <td>{{ attendance.user.department }}</td>
+                            <td>{{ attendance.user.sub_department }}</td>
+                            <td>{{ attendance.user.semester }}</td>
+                            <td>{{ attendance.user.session }}</td>
+                            <td>{{ attendance.date }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
-    </div>
     </div>
 
 </body>

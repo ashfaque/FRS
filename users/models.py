@@ -77,7 +77,7 @@ class UserDetail(AbstractUser):
     @property
     def full_name(self):
         "Returns the person's full name."
-        return '%s %s' % (self.first_name, self.last_name)    
+        return '%s %s %s' % (self.first_name, self.middle_name, self.last_name) if self.middle_name else '%s %s' % (self.first_name, self.last_name)
 
 
     class Meta:
