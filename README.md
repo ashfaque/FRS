@@ -15,3 +15,5 @@ Face Recognition System for Students' Attendance using Django &amp; ML
 Django Admin: 127.0.0.1:8888/admin
 Username: admin
 Password: admin
+
+`NB: .env file is in GitHub secret gist xD`
