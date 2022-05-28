@@ -46,7 +46,7 @@ services:
     container_name: frs_pgsql
     # environment:
     #   POSTGRES_DB: frsdb
-    #   POSTGRES_PASSWORD: admin@123
+    #   POSTGRES_PASSWORD: example@123
     #   POSTGRES_USER: root
     #   TZ: 'Asia/Kolkata'
     networks:
@@ -104,8 +104,8 @@ services:
     networks:
       - dockernetwork
     # environment:
-      # PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      # PGADMIN_DEFAULT_PASSWORD: admin@123
+      # PGADMIN_DEFAULT_EMAIL: admin@example.com
+      # PGADMIN_DEFAULT_PASSWORD: example@123
     ports:
       - "8886:80"    # Open browser and goto localhost:5050 & use the above credentials to use the pgsql db.
     # working_dir: /pgadmin4
