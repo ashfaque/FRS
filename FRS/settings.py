@@ -179,6 +179,9 @@ MEDIA_URL = '/FRS/media/'
 # SERVER_URL = 'http://0.0.0.0:00000/'
 SERVER_URL = 'http://127.0.0.1:8888/'
 FRONTEND_URL = 'http://127.0.0.1/frs/#/'
+
+if not os.path.exists(os.path.join(MEDIA_ROOT, "face_encoding_data")):
+    os.makedirs(os.path.join(MEDIA_ROOT, "face_encoding_data"))
 # =========== MEDIA AND URL CONFIG ================= #
 
 # =========== FILE STORAGE CONFIG ================= #
